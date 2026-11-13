@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Cours, TD, TP et examens corrigés de Siham Ezzouak, Département de Mathématiques, FSDM, USMBA Fès.">
+<title>Cours de Siham Ezzouak</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout : en-tête collant + onglets ; pages de cours = sommaire latéral + colonne de lecture ~68ch */
+:root{
+  --bg:#f5f8f7; --surface:#ffffff; --ink:#14201f; --muted:#5a6b69; --line:#d7e1df;
+  --accent:#0f6b63; --accent-ink:#ffffff; --accent-soft:#e2f0ed;
+  --ochre:#a8660c; --ochre-soft:#fbf1e2;
+  --def:#2f6a3a; --def-soft:#eaf5ec;
+  --font-display:"Archivo",system-ui,sans-serif;
+  --font-body:"Source Serif 4",Georgia,serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1716; --surface:#152120; --ink:#e4ecea; --muted:#9db0ad; --line:#2a3a38;
+  --accent:#4fc2b4; --accent-ink:#06201d; --accent-soft:#163a36;
+  --ochre:#e3a54b; --ochre-soft:#2e2414; --def:#7fcb8c; --def-soft:#18301d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1716; --surface:#152120; --ink:#e4ecea; --muted:#9db0ad; --line:#2a3a38;
+  --accent:#4fc2b4; --accent-ink:#06201d; --accent-soft:#163a36;
+  --ochre:#e3a54b; --ochre-soft:#2e2414; --def:#7fcb8c; --def-soft:#18301d; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:17px/1.65 var(--font-body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.2;text-wrap:balance;margin:0}
+a{color:var(--accent)}
+code,.mono{font-family:var(--font-mono);font-size:.88em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* En-tête */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-block:10px}
+.brand{font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:.01em;display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
+.brand .glyph{font-family:var(--font-mono);font-size:13px;background:var(--accent);color:var(--accent-ink);padding:3px 7px;border-radius:4px;letter-spacing:.08em}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav.tabs a{font-family:var(--font-display);font-size:14px;font-weight:600;text-decoration:none;color:var(--muted);padding:7px 12px;border-radius:6px}
+nav.tabs a:hover{color:var(--ink);background:var(--accent-soft)}
+nav.tabs a[aria-current="page"]{color:var(--accent-ink);background:var(--accent)}
+
+main{padding-block:32px 64px}
+
+/* Accueil */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center;padding-block:16px 40px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(34px,5vw,54px);font-weight:800;margin:10px 0 14px}
+.hero p.lead{font-size:19px;color:var(--muted);max-width:52ch;margin:0}
+.who{margin-top:22px;font-family:var(--font-display);font-size:14px;color:var(--muted);line-height:1.5}
+.who strong{color:var(--ink);font-size:15px}
+.wheel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.wheel .lbl{font-family:var(--font-display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:10px}
+.strip{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;margin:6px 0;font-family:var(--font-mono);font-size:14px;text-align:center}
+.strip span{padding:5px 0;background:var(--bg);border-radius:3px}
+.strip.ct span{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.wheel .ctl{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--font-display);font-size:14px}
+.wheel input[type=range]{flex:1;accent-color:var(--accent)}
+.wheel .out{margin-top:10px;font-family:var(--font-mono);font-size:14px;overflow-wrap:anywhere}
+
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:32px}
+.card{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+.card:hover{border-color:var(--accent)}
+.card .num{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+.card h3{font-size:20px}
+.card p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+.card ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.5}
+
+.pdfbar{margin-top:32px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:space-between;padding:18px 20px;border:1px dashed var(--line);border-radius:10px}
+.pdfbar p{margin:0;font-family:var(--font-display);font-size:15px}
+.pdfbar small{color:var(--muted);display:block;font-size:13px}
+.btn{font-family:var(--font-display);font-weight:600;font-size:14px;background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn[disabled]{opacity:.5;cursor:default}
+.status{font-family:var(--font-display);font-size:13px;color:var(--muted)}
+
+/* Pages de cours */
+.course{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+aside.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;font-family:var(--font-display);font-size:14px}
+aside.toc .t{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+aside.toc button{display:block;width:100%;text-align:left;background:none;border:0;border-left:2px solid var(--line);padding:5px 0 5px 12px;color:var(--muted);cursor:pointer;line-height:1.35}
+aside.toc button.sub{padding-left:24px;font-size:13px}
+aside.toc button:hover{color:var(--ink);border-left-color:var(--accent)}
+article{max-width:70ch;min-width:0}
+article .chap{font-family:var(--font-mono);font-size:14px;color:var(--accent)}
+article h1{font-size:clamp(30px,4vw,40px);font-weight:800;margin:6px 0 24px}
+article h2{font-size:25px;margin:44px 0 12px;padding-top:12px;border-top:1px solid var(--line);scroll-margin-top:90px}
+article h3{font-size:19px;margin:30px 0 8px;scroll-margin-top:90px}
+article h4{font-size:16px;margin:22px 0 6px}
+article p{margin:0 0 14px}
+article ul,article ol{padding-left:24px;margin:0 0 14px}
+article li{margin-bottom:6px}
+dl.terms{margin:0 0 14px}
+dl.terms dt{font-family:var(--font-display);font-weight:600}
+dl.terms dd{margin:0 0 10px 20px}
+
+.box{border:1px solid var(--accent);background:var(--accent-soft);border-radius:8px;margin:20px 0;overflow:hidden}
+.box > .h{font-family:var(--font-display);font-weight:600;font-size:14px;padding:7px 14px;background:var(--accent);color:var(--accent-ink)}
+.box > .b{padding:12px 16px 4px}
+.box.def{border-color:var(--def);background:var(--def-soft)}
+.box.def > .h{background:var(--def);color:var(--surface)}
+.box.ex{border-color:var(--ochre);background:var(--ochre-soft)}
+.box.ex > .h{background:var(--ochre);color:var(--surface)}
+.remark{border-left:3px solid var(--muted);padding:2px 0 2px 14px;margin:18px 0;color:var(--ink)}
+.remark > strong:first-child{font-family:var(--font-display);font-size:14px}
+.proof{margin:-6px 0 18px;font-size:16px}
+.proof em:first-child{font-family:var(--font-display);font-style:normal;font-weight:600;font-size:14px}
+
+figure{margin:24px 0;text-align:center}
+figure .pane{background:#ffffff;border:1px solid var(--line);border-radius:8px;padding:10px;display:inline-block;max-width:100%}
+figure img{display:block;max-width:100%;height:auto;margin:0 auto}
+figcaption{font-family:var(--font-display);font-size:13px;color:var(--muted);margin-top:8px;line-height:1.45}
+.fig-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end}
+.fig-row figure{margin:0}
+.fig-row img{height:140px;width:100%;object-fit:cover;border-radius:4px}
+
+.scroll{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;font-size:15px;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{font-family:var(--font-display);font-size:13px;letter-spacing:.04em;color:var(--muted);font-weight:600}
+td.c,th.c{text-align:center}
+.cipher{font-family:var(--font-mono);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:12px 0;overflow-x:auto;white-space:pre;font-size:14px}
+.ok{color:var(--def);font-weight:600}
+
+/* Exercices */
+.exo{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:16px 18px;margin:16px 0}
+.exo .h{font-family:var(--font-display);font-weight:600;font-size:15px;margin-bottom:8px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.exo .h .tag{font-size:12px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:20px}
+.exo details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.exo summary{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--accent);cursor:pointer}
+.exo details[open] summary{margin-bottom:8px}
+
+/* Outils */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:20px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.tool h3{font-size:19px;margin-bottom:4px}
+.tool .sub{color:var(--muted);font-size:15px;margin:0 0 14px;line-height:1.5}
+.field{display:flex;flex-direction:column;gap:4px;font-family:var(--font-display);font-size:13px;color:var(--muted)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.row .field{flex:1;min-width:110px}
+input[type=text],input[type=number],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:15px;width:100%}
+textarea{font-family:var(--font-mono);min-height:84px;resize:vertical}
+.result{font-family:var(--font-mono);font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;min-height:44px}
+.result .err{color:var(--ochre)}
+.bars{display:grid;grid-template-columns:repeat(26,1fr);gap:2px;align-items:end;height:130px;margin-top:10px}
+.bars div{background:var(--accent);border-radius:2px 2px 0 0;min-height:1px}
+.bars div.top{background:var(--ochre)}
+.bar-l{display:grid;grid-template-columns:repeat(26,1fr);gap:2px;font-family:var(--font-mono);font-size:10px;text-align:center;color:var(--muted)}
+
+/* Sous-navigation du module */
+.subnav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--line);font-family:var(--font-display);font-size:14px}
+.subnav .m{font-weight:800;margin-right:8px}
+.lvl{white-space:nowrap;flex:none;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--accent);background:var(--accent-soft);padding:2px 9px;border-radius:20px;font-family:var(--font-display);align-self:flex-start}
+.subnav a{text-decoration:none;color:var(--muted);padding:5px 10px;border-radius:6px;font-weight:600}
+.subnav a:hover{background:var(--accent-soft);color:var(--ink)}
+.subnav a[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+.modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;margin-top:28px}
+.module{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+.module:hover{border-color:var(--accent)}
+.module h3{font-size:21px}
+.module p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+.module .st{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font-family:var(--font-display);font-size:13px;display:flex;gap:8px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--def);flex:none}
+.dot.wait{background:transparent;border:1.5px solid var(--muted)}
+.intro{padding-block:12px 32px;border-bottom:1px solid var(--line);display:flex;flex-direction:column}
+.intro h1{font-size:clamp(32px,4.6vw,48px);font-weight:800;margin:10px 0 12px}
+.intro p{margin:0;font-size:18px;color:var(--muted);max-width:60ch}
+.empty{margin-top:28px;border:1px dashed var(--line);border-radius:10px;padding:28px 24px;max-width:70ch}
+.empty h3{font-size:18px;margin-bottom:6px}
+.empty p{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-block:20px;font-family:var(--font-display);font-size:13px;color:var(--muted)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .course{grid-template-columns:1fr;gap:0}
+  aside.toc{display:none}
+  nav.tabs{margin-left:0;flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none}
+  nav.tabs a{white-space:nowrap}
+  .subnav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .subnav a,.subnav .m{white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#accueil"><span class="glyph">S·E</span>Cours de mathématiques</a>
+    <nav class="tabs" aria-label="Modules">
+      <a href="#accueil">Accueil</a>
+      <a href="#crypto">Cryptographie</a>
+      <a href="#logiciels">Logiciels mathématiques</a>
+      <a href="#analyse-6">Analyse 6</a>
+      <a href="#sagemath">SageMath</a>
+      <a href="#analyse-1">Analyse 1</a>
+      <a href="#maths-physique">Maths pour la physique</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= ACCUEIL ================= -->
+<section id="v-accueil" data-view="accueil">
+  <div class="intro">
+    <div class="eyebrow">Année universitaire 2026–2027</div>
+    <h1>Cours de Siham Ezzouak</h1>
+    <p>Supports de cours, exercices corrigés et outils pour les étudiants du Département de Mathématiques, Faculté des Sciences Dhar El Mahraz, Université Sidi Mohamed Ben Abdellah, Fès.</p>
+    <div class="who"><span class="mono">siham.ezzouak@usmba.ac.ma</span></div>
+  </div>
+  <div class="modules">
+    <a class="module" href="#crypto"><span class="lvl">Master 2</span><h3>Cryptographie</h3><p>Principes du chiffrement, chiffrements classiques, cryptanalyse et arithmétique des entiers.</p><span class="st"><span class="dot"></span>2 chapitres, exercices, outils, PDF</span></a>
+    <a class="module" href="#logiciels"><span class="lvl">Master 1</span><h3>Logiciels mathématiques</h3><p>LaTeX : documents, tableaux, mathématiques, Beamer, TikZ et bibliographie.</p><span class="st"><span class="dot"></span>7 chapitres, 7 TP, 3 examens, PDF</span></a>
+    <a class="module" href="#analyse-6"><span class="lvl">Filière SMA</span><h3>Analyse 6</h3><p>Intégrales généralisées et à paramètre, formes différentielles, intégrales multiples.</p><span class="st"><span class="dot"></span>4 chapitres, TD et examens 2011–2026, PDF</span></a>
+    <a class="module" href="#sagemath"><span class="lvl">Formation doctorale</span><h3>SageMath</h3><p>Programmation, calcul formel, arithmétique, courbes elliptiques et cryptographie avec Sage.</p><span class="st"><span class="dot"></span>6 chapitres, 6 TP, examen, PDF</span></a>
+    <a class="module" href="#analyse-1"><span class="lvl">SMP · Semestre 1</span><h3>Analyse 1</h3><p>Fonctions numériques, fonctions usuelles, formules de Taylor et développements limités.</p><span class="st"><span class="dot"></span>3 chapitres, PDF</span></a>
+    <a class="module" href="#maths-physique"><span class="lvl">Filières de physique</span><h3>Mathématiques pour la physique</h3><p>Fonctions de plusieurs variables, intégrales, séries et transformation de Fourier.</p><span class="st"><span class="dot"></span>4 chapitres, TD et examens, PDF</span></a>
+  </div>
+</section>
+
+<div class="subnav" id="crypto-nav" hidden>
+  <span class="m">Cryptographie</span><span class="lvl" style="align-self:center">Master 2</span>
+  <a href="#crypto">Présentation</a><a href="#chapitre-1">Chapitre 1</a><a href="#chapitre-2">Chapitre 2</a><a href="#exercices">Exercices</a><a href="#outils">Outils</a>
+</div>
+
+<section id="v-crypto" data-view="crypto" hidden>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Master 2 · Module de cryptographie</div>
+      <h1>Cryptographie</h1>
+      <p class="lead">Les principes du chiffrement, ses grandes étapes historiques et l'arithmétique des entiers sur laquelle reposent les systèmes modernes. Cours rédigé, exercices corrigés et outils pour vérifier vos calculs.</p>
+      <div class="who"><strong>Siham Ezzouak</strong> · Département de Mathématiques</div>
+    </div>
+    <div class="wheel" aria-label="Démonstration du chiffre de César">
+      <div class="lbl"><span>Chiffre de César</span><span>clé k = <b id="hk">3</b></span></div>
+      <div class="strip" id="hs1"></div>
+      <div class="strip ct" id="hc1"></div>
+      <div class="strip" id="hs2"></div>
+      <div class="strip ct" id="hc2"></div>
+      <div class="ctl"><label for="hkey">Décalage</label><input id="hkey" type="range" min="1" max="25" value="3"></div>
+      <div class="out" id="hout"></div>
+    </div>
+  </div>
+
+  <div class="grid-cards">
+    <a class="card" href="#chapitre-1">
+      <span class="num">Chapitre 1</span><h3>Introduction à la cryptographie</h3>
+      <ul><li>Enjeux, histoire, vocabulaire</li><li>Chiffrement symétrique, masque jetable</li><li>César, Vigenère, analyse des fréquences</li></ul>
+    </a>
+    <a class="card" href="#chapitre-2">
+      <span class="num">Chapitre 2</span><h3>Arithmétique pour la cryptographie</h3>
+      <ul><li>Binaire et hexadécimal</li><li>Euclide, Bézout, Euclide étendu</li><li>Inverse modulaire, congruences $ax\equiv b$</li></ul>
+    </a>
+    <a class="card" href="#exercices">
+      <span class="num">7 exercices</span><h3>Exercices corrigés</h3>
+      <p>Cherchez d'abord seuls, puis dépliez la correction pour vérifier votre raisonnement.</p>
+    </a>
+    <a class="card" href="#outils">
+      <span class="num">4 outils</span><h3>Outils interactifs</h3>
+      <p>Chiffrer avec César, Vigenère ou affine, dérouler l'algorithme d'Euclide étendu, compter les fréquences.</p>
+    </a>
+  </div>
+
+  <div class="pdfbar">
+    <p>Polycopié complet en PDF<small>Les deux chapitres, figures et exercices corrigés (21 pages).</small></p>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <span class="status" id="pdfstatus"></span>
+      <a class="btn" href="livre_cryptographie.pdf" download="Cours_Cryptographie_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPITRE 1 ================= -->
+<section id="v-chapitre-1" data-view="chapitre-1" hidden>
+<div class="course">
+<aside class="toc" aria-label="Sommaire du chapitre 1"><div class="t">Sommaire</div></aside>
+<article>
+<div class="chap">Chapitre 1</div>
+<h1>Introduction à la cryptographie</h1>
+
+<h2 id="c1-enjeux">Les enjeux de la numérisation</h2>
+<p>La numérisation massive des données et le développement des réseaux de communication ont rendu possibles des traitements automatisés encore inimaginables il y a quelques décennies.</p>
+<ul>
+<li>En une fraction de seconde, un médecin peut accéder à l'ensemble du passé médical de son patient et aux résultats de toutes ses analyses.</li>
+<li>Le vote électronique, y compris à distance, permet à un électeur de s'exprimer sans se déplacer jusqu'à un bureau de vote ; il est expérimenté ou utilisé dans plusieurs pays.</li>
+<li>Un client peut consulter les opérations de son compte bancaire et ordonner un virement depuis son téléphone mobile.</li>
+</ul>
+<div class="fig-row">
+  <figure><img src="FIGURE/med_dossier_medicale.jpg" alt="Médecin consultant un dossier médical sur tablette" loading="lazy"><figcaption>Dossier médical numérique</figcaption></figure>
+  <figure><img src="FIGURE/vote_elect.jpg" alt="Vote sur un ordinateur portable" loading="lazy"><figcaption>Vote électronique</figcaption></figure>
+  <figure><img src="FIGURE/banque_elect.jpg" alt="Paiement avec un téléphone mobile" loading="lazy"><figcaption>Banque mobile</figcaption></figure>
+</div>
+<p style="margin-top:18px">Ces progrès ont un revers. Dès lors que l'information circule sur des réseaux ouverts, elle devient exposée :</p>
+<ul>
+<li>un fraudeur peut usurper l'identité d'un client pour effectuer un virement en son nom ;</li>
+<li>on peut falsifier le choix d'un électeur, usurper son identité, ou simplement connaître son vote, ce qui viole la confidentialité du scrutin ;</li>
+<li>on peut tenter d'obtenir des informations sur l'état de santé d'une personnalité connue.</li>
+</ul>
+
+<h3 id="c1-motivation">Motivation</h3>
+<p>La cryptographie répond à ces menaces. Elle vise à empêcher l'usurpation d'identité et la falsification des données en garantissant l'intégrité, la confidentialité et l'authenticité des informations échangées. Elle permet d'assurer :</p>
+<ul>
+<li>pour un vote, l'identité de l'électeur et le secret de son choix ;</li>
+<li>pour un virement, l'identité de l'émetteur et du destinataire, et la confidentialité du montant transféré ;</li>
+<li>pour une chaîne de télévision à péage, que les programmes ne soient visibles que par les abonnés ;</li>
+<li>pour un état-major, que les ordres transmis aux généraux restent inconnus de l'ennemi.</li>
+</ul>
+
+<h2 id="c1-histoire">Un peu d'histoire</h2>
+<ol>
+<li>Vers 1900 avant J.-C., en Égypte, des scribes modifient volontairement des hiéroglyphes sur certains monuments : c'est l'une des plus anciennes traces de transformation délibérée d'un texte.</li>
+<li>Au <span style="font-variant:small-caps">xvi</span><sup>e</sup> siècle avant J.-C., en Mésopotamie (l'actuel Irak), un potier grave sur une tablette d'argile sa recette secrète ; pour la protéger, il supprime des consonnes et modifie l'orthographe des mots.</li>
+<li>Dans l'Antiquité romaine apparaît le chiffre de César ; à la Renaissance, les chiffrements polyalphabétiques, dont le plus célèbre porte le nom de Vigenère.</li>
+<li>Pendant les deux guerres mondiales et la guerre froide, la cryptographie a un rôle essentiellement militaire, diplomatique et gouvernemental : transmettre des informations confidentielles sur des canaux publics comme la radio. C'est l'époque des machines à chiffrer comme Enigma ; tous ces systèmes sont <em>symétriques</em>.</li>
+<li>En 1976, W. Diffie et M. Hellman introduisent, dans <em>New Directions in Cryptography</em>, l'idée de la cryptographie à clé publique, dite <em>asymétrique</em>.</li>
+<li>En 1978 est publié RSA (Rivest, Shamir, Adleman), le premier système de chiffrement à clé publique. Il résiste encore à la cryptanalyse avec des clés suffisamment longues.</li>
+</ol>
+<div class="fig-row" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)">
+  <figure><div class="pane"><img src="FIGURE/hylographe.png" alt="Tableau de hiéroglyphes égyptiens avec leurs valeurs phonétiques" loading="lazy" style="height:auto;object-fit:contain"></div><figcaption>Hiéroglyphes égyptiens.</figcaption></figure>
+  <figure><img src="FIGURE/tab.jpg" alt="Disque d'argile couvert de signes gravés en spirale" loading="lazy" style="height:auto;max-height:210px;object-fit:contain"><figcaption>Le disque de Phaistos (Crète), écriture gravée dans l'argile.</figcaption></figure>
+</div>
+
+<h2 id="c1-vocabulaire">Vocabulaire</h2>
+<h3 id="c1-cryptologie">Cryptologie, cryptographie, cryptanalyse</h3>
+<div class="box def"><div class="h">Définition · Cryptologie</div><div class="b">
+<p>Le mot <em>cryptologie</em> vient du grec <em>kryptos</em>, « caché, secret », et <em>logos</em>, « science » : c'est littéralement <em>la science du secret</em>. Elle se divise en deux branches :</p>
+<ul><li>la <strong>cryptographie</strong>, l'art de concevoir et de développer des protocoles de chiffrement ;</li>
+<li>la <strong>cryptanalyse</strong>, l'art de casser ces protocoles, c'est-à-dire de retrouver le contenu de messages interceptés sans disposer de la clé.</li></ul>
+</div></div>
+<p>Ces deux domaines sont étroitement liés : celui qui conçoit un système de chiffrement doit anticiper, dès la conception, les attaques qu'un cryptanalyste pourrait mener. Un système ne vaut que par les attaques auxquelles il a résisté.</p>
+
+<h3 id="c1-stegano">Stéganographie et cryptographie</h3>
+<p>La cryptographie rend un message <em>inintelligible</em> pour qui ne possède pas la clé. La stéganographie, elle, rend le message <em>inaperçu</em>, en le cachant par exemple dans un autre texte ou dans une image.</p>
+<div class="box ex"><div class="h">Exemple · Le crâne des esclaves</div><div class="b">
+<p>Vers 600 avant J.-C., Nabuchodonosor, roi de Babylone, aurait procédé ainsi :</p>
+<ol><li>écrire le message sur le crâne rasé d'un esclave ;</li><li>attendre que les cheveux aient repoussé, puis envoyer l'esclave ;</li><li>à l'arrivée, raser de nouveau la tête pour lire le message.</li></ol>
+</div></div>
+<p>Une fois le support découvert, le message est lu en clair. En revanche, ici, l'interception ne passe pas inaperçue : un crâne rasé en chemin se remarque.</p>
+
+<h3 id="c1-qualites">Qualités d'un cryptosystème</h3>
+<dl class="terms">
+<dt>Confidentialité</dt><dd>Seules les personnes habilitées ont accès au contenu du message.</dd>
+<dt>Intégrité</dt><dd>Le message ne peut pas être modifié ou falsifié sans que cela soit détecté.</dd>
+<dt>Authentification</dt><dd>L'émetteur est sûr de l'identité du destinataire, et réciproquement.</dd>
+<dt>Non-répudiation</dt><dd>L'émetteur ne peut pas nier avoir envoyé le message, et le destinataire ne peut pas nier l'avoir reçu.</dd>
+</dl>
+
+<h2 id="c1-symetrique">Chiffrement symétrique</h2>
+<p>Pour sécuriser la transmission des données, on recourt à des cryptosystèmes <strong>symétriques</strong> (à clé secrète) ou <strong>asymétriques</strong> (à clé publique). Ce chapitre est consacré aux premiers ; les seconds, comme RSA et ElGamal, reposent sur l'arithmétique du chapitre 2.</p>
+<h3 id="c1-principes">Principes</h3>
+<ol>
+<li>Une seule et même clé sert à chiffrer et à déchiffrer.</li>
+<li>Les fonctions de chiffrement et de déchiffrement sont publiques.</li>
+<li>La fonction de chiffrement est inversible : le déchiffrement est son inverse.</li>
+<li>Toute la sécurité repose donc sur la protection de la clé.</li>
+</ol>
+<p>C'est le <em>principe de Kerckhoffs</em> (1883) : la sécurité d'un système ne doit pas reposer sur le secret de son fonctionnement. Il doit rester sûr même si tout, sauf la clé, est connu de l'adversaire.</p>
+<figure><div class="pane"><img src="FIGURE/symmetric-image.png" alt="Schéma : texte clair, chiffrement, texte chiffré, déchiffrement, texte clair, avec une même clé secrète" loading="lazy"></div><figcaption>La même clé secrète sert au chiffrement et au déchiffrement.</figcaption></figure>
+<dl class="terms">
+<dt>Chiffrement par flux</dt><dd>Chaque bit (ou caractère) est chiffré et déchiffré au fil de l'eau.</dd>
+<dt>Chiffrement par blocs</dt><dd>Le message est découpé en blocs de longueur fixe ; le chiffrement agit sur chaque bloc.</dd>
+</dl>
+
+<h3 id="c1-vernam">Le masque jetable de Vernam</h3>
+<p>Inventé par Gilbert Vernam en 1917, le <em>masque jetable</em> (<em>one-time pad</em>) est le seul chiffrement dont on a démontré qu'il est théoriquement incassable. Il exige trois conditions :</p>
+<ul><li>la clé est aussi longue que le message ;</li><li>ses caractères sont choisis de façon parfaitement aléatoire ;</li><li>chaque clé ne sert qu'une seule fois.</li></ul>
+<p>En binaire, on ajoute modulo 2 (le « ou exclusif » $\oplus$) chaque bit de la clé au bit correspondant du message :
+$$c_i = m_i\oplus k_i,\qquad m_i = c_i\oplus k_i .$$
+Le déchiffrement est identique au chiffrement, puisque $k_i\oplus k_i=0$.</p>
+<div class="box ex"><div class="h">Exemple · Chiffrement de « IF »</div><div class="b">
+<p>En ASCII sur 7 bits, <code>IF</code> s'écrit $1001001\;1000110$. Avec la clé $1010110\;0110001$ :</p>
+<div class="cipher">  message   1001001 1000110
+⊕ clé       1010110 0110001
+  chiffré   0011111 1110111</div>
+<p>En ajoutant de nouveau la clé au chiffré, on retrouve le message.</p>
+</div></div>
+<figure><div class="pane"><img src="FIGURE/onepad.png" alt="Calcul de chiffrement puis de déchiffrement par ou exclusif" loading="lazy" style="max-width:420px"></div><figcaption>Le calcul du support de cours. Le second octet y est écrit 1000111 (code de G) ; avec le code exact de F, 1000110, on obtient 1110111 comme ci-dessus.</figcaption></figure>
+<p>On ne peut pas échanger à l'avance des clés aléatoires arbitrairement longues. Les chiffrements par flux réels génèrent donc, à partir d'une clé courte, une suite <em>pseudo-aléatoire</em> combinée au message par $\oplus$ : on troque la sécurité absolue contre une sécurité calculatoire.</p>
+<figure><div class="pane"><img src="FIGURE/flux_encryption.png" alt="Schéma du chiffrement par flux avec générateur pseudo-aléatoire" loading="lazy"></div><figcaption>Chiffrement par flux : un générateur produit la suite chiffrante $k$ à partir de la clé $K$.</figcaption></figure>
+
+<h3 id="c1-cesar">Le chiffrement de César</h3>
+<p>On identifie chaque lettre à son rang : $A=0$, $B=1$, …, $Z=25$. On choisit une clé $k$ entre 1 et 25 et l'on pose
+$$c\equiv x+k \pmod{26},\qquad x\equiv c-k\pmod{26}.$$
+Chaque lettre est décalée de $k$ rangs, en revenant à $A$ après $Z$.</p>
+<div class="box ex"><div class="h">Exemple · Rendez-vous</div><div class="b">
+<p>Chiffrons <code>RENDEZ VOUS DEMAIN MIDI</code> :</p>
+<ul><li>avec $k=3$ : <code>UHQGHC YRXV GHPDLQ PLGL</code> ;</li><li>avec $k=7$ : <code>YLUKLG CVBZ KLTHPU TPKP</code>.</li></ul>
+<p>Pour déchiffrer, on recule de $k$ rangs.</p>
+</div></div>
+<p>Avec seulement 25 clés, César se casse par essai exhaustif. Mais il existe une attaque plus fine, valable pour toutes les substitutions.</p>
+
+<h3 id="c1-frequences">Analyse des fréquences</h3>
+<p>Méthode décrite au <span style="font-variant:small-caps">ix</span><sup>e</sup> siècle par le savant arabe al-Kindi. Dans une langue donnée, les lettres n'ont pas toutes la même fréquence ; en français, le <code>E</code> domine, suivi notamment de <code>S</code>, <code>A</code>, <code>I</code>, <code>T</code>, <code>N</code>, <code>R</code>. Une substitution déplace les lettres mais conserve leurs fréquences.</p>
+<ol><li>Se procurer la table des fréquences de la langue du message.</li><li>Construire la table des fréquences du message chiffré.</li><li>Associer le symbole le plus fréquent à la lettre la plus fréquente, et ainsi de suite, en corrigeant à l'aide des mots qui apparaissent.</li></ol>
+<figure><div class="pane"><img src="FIGURE/Analyse_freq.png" alt="Table des fréquences des lettres en français comparées à un texte chiffré" loading="lazy" style="max-width:520px"></div><figcaption>Fréquences en français (« % français ») et dans un texte chiffré (« % texte »).</figcaption></figure>
+<p>Dans ce texte chiffré, les lettres dominantes sont <code>T</code> (20 %) et <code>V</code> (12 %), contre <code>E</code> et <code>A</code> en français. On suppose $E\mapsto T$ et $A\mapsto V$.</p>
+<div class="remark"><strong>Remarque.</strong> Ces deux correspondances donnent deux décalages différents ($T-E=15$, $V-A=21$) : ce n'est donc pas César mais un chiffrement affine $y\equiv ax+b$. On trouve $b=21$, puis $4a\equiv 24\pmod{26}$, dont seule la solution $a=19$ est inversible modulo 26 (voir le chapitre 2).</div>
+<p>La méthode n'est fiable que sur un texte assez long. Pour César, une seule lettre identifiée suffit à trouver la clé.</p>
+
+<h4>Un exemple complet</h4>
+<p>On intercepte ce message de 45 lettres, chiffré par César :</p>
+<div class="cipher">SLZ TLZZHNLZ ZLJYLAZ ZL JHJOLUA KLYYPLYL SLZ SLAAYLZ</div>
+<p><strong>Étape 1 : compter.</strong></p>
+<div class="scroll"><table><thead><tr><th>Lettre chiffrée</th><th class="c">L</th><th class="c">Z</th><th class="c">Y</th><th class="c">A</th><th class="c">S</th><th class="c">J</th><th class="c">H</th><th class="c">autres</th></tr></thead>
+<tbody><tr><td>Occurrences</td><td class="c">13</td><td class="c">9</td><td class="c">5</td><td class="c">4</td><td class="c">3</td><td class="c">3</td><td class="c">2</td><td class="c">1 chacune</td></tr>
+<tr><td>Fréquence</td><td class="c">28,9 %</td><td class="c">20 %</td><td class="c">11,1 %</td><td class="c">8,9 %</td><td class="c">6,7 %</td><td class="c">6,7 %</td><td class="c">4,4 %</td><td class="c">2,2 %</td></tr></tbody></table></div>
+<p><strong>Étape 2 : hypothèse.</strong> <code>L</code> correspond très probablement à <code>E</code>, d'où $k=11-4=7$.</p>
+<p><strong>Étape 3 : vérifier.</strong> En reculant de 7 : $Z\to S$ <span class="ok">✓</span> (deuxième lettre la plus fréquente), $Y\to R$ <span class="ok">✓</span>, $A\to T$ <span class="ok">✓</span>.</p>
+<p><strong>Étape 4 : déchiffrer.</strong></p>
+<div class="cipher">LES MESSAGES SECRETS SE CACHENT DERRIERE LES LETTRES</div>
+
+<h3 id="c1-vigenere">Le chiffrement de Vigenère</h3>
+<p>Pour résister à l'analyse des fréquences, une même lettre claire ne doit pas toujours être chiffrée de la même façon. C'est l'idée des chiffrements <em>polyalphabétiques</em>, imaginés par Alberti au <span style="font-variant:small-caps">xv</span><sup>e</sup> siècle et popularisés par Blaise de Vigenère.</p>
+<ul><li>On fixe une clé de $m$ lettres, de rangs $k_1,\dots,k_m$.</li><li>On découpe le message en blocs de $m$ lettres.</li><li>Dans chaque bloc, la $j$-ième lettre est chiffrée par un César de clé $k_j$.</li></ul>
+<div class="box ex"><div class="h">Exemple · Clé IUPMIAGE</div><div class="b">
+<p>Chiffrons <code>CHIFFRE DE VIGENERE</code> avec la clé <code>IUPMIAGE</code> ($m=8$) :</p>
+<figure style="margin:10px 0"><div class="pane"><img src="FIGURE/vignere.png" alt="Tableau : texte clair, clé répétée, décalage, texte crypté" loading="lazy"></div></figure>
+<p>Par exemple $C+I=2+8=10$, soit <code>K</code> ; $H+U=7+20=27\equiv 1$, soit <code>B</code>. Résultat : <code>KBXRNRKHMPXSMNKVM</code>. La lettre <code>E</code> devient tantôt <code>K</code>, tantôt <code>M</code> : les fréquences sont brouillées.</p>
+</div></div>
+<p>Vigenère a pourtant été cassé au <span style="font-variant:small-caps">xix</span><sup>e</sup> siècle (Babbage, Kasiski) : une fois la longueur $m$ trouvée, le message se décompose en $m$ messages chiffrés par César, que l'on attaque séparément.</p>
+</article>
+</div>
+</section>
+
+<!-- ================= CHAPITRE 2 ================= -->
+<section id="v-chapitre-2" data-view="chapitre-2" hidden>
+<div class="course">
+<aside class="toc" aria-label="Sommaire du chapitre 2"><div class="t">Sommaire</div></aside>
+<article>
+<div class="chap">Chapitre 2</div>
+<h1>Arithmétique pour la cryptographie</h1>
+
+<h2 id="c2-feuille">Feuille de route</h2>
+<p>Les cinq premières notions sont développées dans ce chapitre ; les trois dernières seront étudiées avec les cryptosystèmes asymétriques.</p>
+<div class="scroll"><table>
+<thead><tr><th>Notion</th><th>Résultat clé</th><th>Usage en cryptographie</th></tr></thead>
+<tbody>
+<tr><td>Binaire, hexadécimal</td><td>$N=\sum a_i2^i$, $k=\lfloor\log_2 N\rfloor$ ; 1 chiffre hexa = 4 bits</td><td>Représentation des messages et des clés</td></tr>
+<tr><td>Algorithme d'Euclide</td><td>$\PGCD(a,b)=\PGCD(b,r)$</td><td>Tester $\PGCD(e,\varphi(n))=1$ (RSA), $\PGCD(a,26)=1$ (affine)</td></tr>
+<tr><td>Bézout, Euclide étendu</td><td>$\PGCD(a,b)=1\iff au+bv=1$</td><td>Clé secrète $d=e^{-1}\bmod\varphi(n)$</td></tr>
+<tr><td>Inverse modulaire</td><td>$a$ inversible mod $n\iff\PGCD(a,n)=1$</td><td>Chiffrements affine, de Hill, RSA</td></tr>
+<tr><td>$ax\equiv b\pmod n$</td><td>Solutions $\iff d\mid b$ ; $d$ solutions</td><td>Déchiffrement affine</td></tr>
+<tr><td>Restes chinois</td><td>Solution unique mod $n_1\cdots n_p$</td><td>Accélération de RSA</td></tr>
+<tr><td>$\F_p$, groupes cycliques</td><td>$\ord(g^m)=n/\PGCD(m,n)$</td><td>Diffie–Hellman, ElGamal</td></tr>
+<tr><td>Théorème d'Euler</td><td>$a^{\varphi(m)}\equiv 1\pmod m$</td><td>Correction de RSA</td></tr>
+</tbody></table></div>
+
+<h2 id="c2-ecriture">Écriture des entiers</h2>
+<h3 id="c2-binaire">Nombres binaires</h3>
+<div class="box"><div class="h">Proposition · Écriture binaire</div><div class="b">
+<p>Tout entier $N\geq 1$ s'écrit de manière unique
+$$N=a_k2^k+a_{k-1}2^{k-1}+\cdots+a_12+a_0=(a_k\cdots a_1a_0)_2,$$
+avec $a_i\in\{0,1\}$, $a_k=1$ et $k=\lfloor\log_2 N\rfloor$.</p>
+</div></div>
+<p>$N$ s'écrit donc avec $\lfloor\log_2 N\rfloor+1$ bits : c'est sa <em>taille</em>. Une clé de 128 bits est un entier entre $0$ et $2^{128}-1$.</p>
+<div class="box ex"><div class="h">Exemple · Conversions</div><div class="b">
+<ul>
+<li>$453=256+128+64+4+1=2^8+2^7+2^6+2^2+2^0$, donc $453=(111000101)_2$.</li>
+<li>$2034=1024+512+256+128+64+32+16+2$, donc $2034=(11111110010)_2$.</li>
+<li>$(101101)_2=2^5+2^3+2^2+2^0=45$.</li>
+</ul>
+</div></div>
+
+<h3 id="c2-hexa">Nombres hexadécimaux</h3>
+<p>En base 16, les chiffres vont de $0$ à $F$ ($A=10$, …, $F=15$). Comme $2^4=16$, un chiffre hexadécimal représente exactement 4 bits : 128 bits s'écrivent avec 32 chiffres hexadécimaux.</p>
+<div class="scroll"><table class="mono" style="font-size:13px">
+<tr><th>Hexa</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+<tr><th>Binaire</th><td>0000</td><td>0001</td><td>0010</td><td>0011</td><td>0100</td><td>0101</td><td>0110</td><td>0111</td></tr>
+<tr><th>Hexa</th><td>8</td><td>9</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td></tr>
+<tr><th>Binaire</th><td>1000</td><td>1001</td><td>1010</td><td>1011</td><td>1100</td><td>1101</td><td>1110</td><td>1111</td></tr>
+</table></div>
+<div class="box ex"><div class="h">Exemple · L'entier 6453</div><div class="b">
+<p><strong>En hexadécimal</strong>, par divisions successives par 16 :
+$$6453=403\times16+5,\quad 403=25\times16+3,\quad 25=1\times16+9,\quad 1=0\times16+1.$$
+On lit les restes de bas en haut : $6453=(1935)_{16}$.</p>
+<p><strong>En binaire</strong>, on remplace chaque chiffre par ses 4 bits : $1\to0001$, $9\to1001$, $3\to0011$, $5\to0101$, d'où $6453=(1100100110101)_2$, soit 13 bits ($k=12$).</p>
+</div></div>
+
+<h2 id="c2-entiers">Arithmétique dans les entiers</h2>
+<h3 id="c2-division">Division euclidienne</h3>
+<div class="box"><div class="h">Théorème · Division euclidienne</div><div class="b">
+<p>Soient $a\in\Z$ et $b\in\N^*$. Il existe un unique couple $(q,r)$ d'entiers tel que
+$$a=bq+r\qquad\text{et}\qquad 0\leq r\leq b-1.$$</p>
+</div></div>
+<div class="box"><div class="h">Proposition · PGCD avec un nombre premier</div><div class="b">
+<p>Si $p$ est premier, $\PGCD(n,p)=1$ si $p\nmid n$, et $\PGCD(n,p)=p$ si $p\mid n$.</p>
+</div></div>
+<div class="box"><div class="h">Lemme · Lemme d'Euclide</div><div class="b">
+<p>Pour $a,b>0$, $\PGCD(a,b)=\PGCD(b,r)$, où $r$ est le reste de la division de $a$ par $b$.</p>
+</div></div>
+<p class="proof"><em>Démonstration.</em> Si $a=bq+r$, tout diviseur commun de $a$ et $b$ divise $r=a-bq$, et tout diviseur commun de $b$ et $r$ divise $a$. Les deux couples ont les mêmes diviseurs communs. ∎</p>
+
+<h3 id="c2-euclide">L'algorithme d'Euclide</h3>
+<p>On remplace $(a,b)$ par $(b,r)$ et l'on recommence jusqu'à un reste nul. Le <em>dernier reste non nul</em> est le PGCD. Les restes décroissent strictement, donc l'algorithme se termine, et très vite même pour des entiers de plusieurs centaines de chiffres.</p>
+<div class="box ex"><div class="h">Exemple · PGCD(255, 141)</div><div class="b">
+$$\begin{aligned}255&=1\times141+114\\141&=1\times114+27\\114&=4\times27+6\\27&=4\times6+3\\6&=2\times3+0\end{aligned}$$
+<p>Donc $\PGCD(255,141)=3$.</p>
+</div></div>
+
+<h3 id="c2-bezout">Identité de Bézout</h3>
+<div class="box"><div class="h">Théorème · Identité de Bézout</div><div class="b">
+<p>$a$ et $b$ sont premiers entre eux si et seulement s'il existe $(u,v)\in\Z^2$ tel que $au+bv=1$.</p>
+</div></div>
+<div class="remark"><strong>Remarque.</strong> $u$ et $v$ ne sont pas uniques : $a(u+kb)+b(v-ka)=1$ pour tout $k$. On les obtient en remontant l'algorithme d'Euclide : c'est l'<em>algorithme d'Euclide étendu</em>.</div>
+
+<h3 id="c2-etendu">L'algorithme d'Euclide étendu</h3>
+<div class="box ex"><div class="h">Exemple · Coefficients de Bézout pour 255 et 141</div><div class="b">
+<p>On remonte les divisions précédentes :</p>
+$$\begin{aligned}3&=27-4\times6\\&=27-4(114-4\times27)=17\times27-4\times114\\&=17(141-114)-4\times114=17\times141-21\times114\\&=17\times141-21(255-141)=38\times141-21\times255.\end{aligned}$$
+<p>D'où $u=-21$, $v=38$. Vérification : $-5355+5358=3$.</p>
+</div></div>
+
+<h3 id="c2-inverse">Inverse modulaire</h3>
+<p>$a$ est <em>inversible modulo $n$</em> s'il existe $a'$ tel que $aa'\equiv1\pmod n$. Déchiffrer un chiffrement affine $y\equiv ax+b$ demande justement de « diviser » par $a$ modulo 26.</p>
+<div class="box"><div class="h">Proposition · Critère d'inversibilité</div><div class="b">
+<p>$a$ est inversible modulo $n$ si et seulement si $\PGCD(a,n)=1$. Dans ce cas, si $au+nv=1$, alors $a^{-1}\equiv u\pmod n$.</p>
+</div></div>
+<p class="proof"><em>Démonstration.</em> Si $aa'\equiv1$, alors $aa'+nv=1$ pour un $v$, donc $\PGCD(a,n)=1$ par Bézout. Réciproquement, Euclide étendu donne $au+nv=1$, d'où $au\equiv1\pmod n$. ∎</p>
+<div class="box ex"><div class="h">Exemple · 15⁻¹ dans ℤ/26ℤ</div><div class="b">
+<p><strong>Étape 1.</strong> $26=1\cdot15+11$, $15=1\cdot11+4$, $11=2\cdot4+3$, $4=1\cdot3+1$ : $\PGCD(15,26)=1$.</p>
+<p><strong>Étape 2.</strong>
+$$\begin{aligned}1&=4-3=3\cdot4-11\\&=3\cdot15-4\cdot11\\&=7\cdot15-4\cdot26.\end{aligned}$$</p>
+<p>Donc $15^{-1}\equiv7\pmod{26}$. Vérification : $15\cdot7=105=4\cdot26+1$.</p>
+</div></div>
+
+<h2 id="c2-congruences">Congruences linéaires</h2>
+<div class="box"><div class="h">Proposition · Équations ax ≡ b (mod n)</div><div class="b">
+<p>Soient $a\neq0$, $n\geq2$ et $d=\PGCD(a,n)$.</p>
+<ul><li>L'équation $ax\equiv b\pmod n$ a des solutions si et seulement si $d\mid b$.</li><li>Dans ce cas, elle en a exactement $d$ modulo $n$.</li><li>Si $d=1$, la solution est unique : $x\equiv a^{-1}b\pmod n$.</li></ul>
+</div></div>
+<p><strong>Méthode.</strong> Si $d\mid b$ : on divise tout par $d$, on résout $\frac ad x\equiv\frac bd\pmod{\frac nd}$ avec l'inverse de $\frac ad$, ce qui donne $x_0$ ; les solutions modulo $n$ sont $x_0+k\frac nd$, $k=0,\dots,d-1$.</p>
+<div class="box ex"><div class="h">Exemple · Trois cas types</div><div class="b">
+<ol>
+<li><strong>$7x\equiv3\pmod{10}$</strong> : $d=1$. Comme $7^{-1}\equiv3$ ($21\equiv1$), $x\equiv9\pmod{10}$. Vérification : $63\equiv3$.</li>
+<li><strong>$6x\equiv4\pmod{10}$</strong> : $d=2$ divise 4, deux solutions. On résout $3x\equiv2\pmod5$ : $3^{-1}\equiv2$, d'où $x\equiv4\pmod5$, soit $x\equiv4$ ou $9\pmod{10}$.</li>
+<li><strong>$6x\equiv3\pmod{10}$</strong> : $d=2$ ne divise pas 3, aucune solution ($6x-10k$ est toujours pair).</li>
+</ol>
+</div></div>
+</article>
+</div>
+</section>
+
+<!-- ================= EXERCICES ================= -->
+<section id="v-exercices" data-view="exercices" hidden>
+<article style="max-width:76ch">
+<div class="chap">Entraînement</div>
+<h1>Exercices corrigés</h1>
+<p>Cherchez chaque exercice avant d'ouvrir la correction. Les outils interactifs permettent de vérifier vos calculs.</p>
+
+<h2>Chapitre 1</h2>
+<div class="exo"><div class="h">Exercice 1.1 <span class="tag">César</span></div>
+<p>Chiffrer puis déchiffrer <code>RENDEZ VOUS DEMAIN MIDI</code> avec le chiffre de César de clé $k=3$, puis $k=7$.</p>
+<details><summary>Voir la correction</summary>
+<p>$k=3$ : <code>UHQGHC YRXV GHPDLQ PLGL</code>. $k=7$ : <code>YLUKLG CVBZ KLTHPU TPKP</code>. On déchiffre en reculant de $k$ rangs.</p></details></div>
+
+<div class="exo"><div class="h">Exercice 1.2 <span class="tag">Cryptanalyse</span></div>
+<p>Le message <code>SLZ TLZZHNLZ</code> a été chiffré par César. Sachant que <code>L</code> correspond à <code>E</code>, retrouver la clé et le message.</p>
+<details><summary>Voir la correction</summary>
+<p>$k\equiv11-4=7\pmod{26}$ ; en reculant de 7 rangs : <code>LES MESSAGES</code>.</p></details></div>
+
+<div class="exo"><div class="h">Exercice 1.3 <span class="tag">Affine</span></div>
+<figure style="margin:6px 0 10px"><div class="pane"><img src="FIGURE/exovig.png" alt="Énoncé : coder avec le code affine a=7, b=5 le texte IL SEMBLERAIT BIEN QUE CE TEXTE AIT UNE SIGNIFICATION. LE TOUR EST DONC JOUE" loading="lazy"></div></figure>
+<details><summary>Voir la correction</summary>
+<p>Chaque lettre $x$ devient $7x+5\bmod 26$ ; par exemple $I=8\mapsto61\equiv9=J$ et $L=11\mapsto82\equiv4=E$. Le texte chiffré est</p>
+<div class="cipher">JE BHLMEHUFJI MJHS NPH TH IHKIH FJI PSH BJVSJOJTFIJZS.
+EH IZPU HBI AZST QZPH</div>
+<p>Le code est inversible car $\PGCD(7,26)=1$ ; $7\cdot15=105\equiv1$, donc le déchiffrement est $x\equiv15(y-5)\pmod{26}$.</p></details></div>
+
+<div class="exo"><div class="h">Exercice 1.4 <span class="tag">Masque jetable</span></div>
+<p>Pourquoi le masque jetable perd-il sa sécurité si la même clé $K$ chiffre deux messages $M_1$ et $M_2$ ?</p>
+<details><summary>Voir la correction</summary>
+<p>L'adversaire calcule $C_1\oplus C_2=(M_1\oplus K)\oplus(M_2\oplus K)=M_1\oplus M_2$ : la clé disparaît, et la redondance de la langue permet souvent de séparer les deux messages.</p></details></div>
+
+<h2>Chapitre 2</h2>
+<div class="exo"><div class="h">Exercice 2.1 <span class="tag">Bases</span></div>
+<p>Convertir $453$ et $2034$ en binaire. Combien vaut $(101101)_2$ ? Écrire $6453$ en hexadécimal puis en binaire.</p>
+<details><summary>Voir la correction</summary>
+<p>$453=(111000101)_2$, $2034=(11111110010)_2$, $(101101)_2=45$, $6453=(1935)_{16}=(1100100110101)_2$.</p></details></div>
+
+<div class="exo"><div class="h">Exercice 2.2 <span class="tag">Euclide étendu</span></div>
+<p>Calculer $\PGCD(255,141)$ et trouver $u,v$ tels que $255u+141v=\PGCD(255,141)$.</p>
+<details><summary>Voir la correction</summary>
+<p>$\PGCD(255,141)=3$, avec $u=-21$ et $v=38$ (voir le chapitre 2).</p></details></div>
+
+<div class="exo"><div class="h">Exercice 2.3 <span class="tag">Inverse modulaire</span></div>
+<p>Le chiffrement affine $y\equiv15x+3\pmod{26}$ est-il utilisable ? Donner la formule de déchiffrement.</p>
+<details><summary>Voir la correction</summary>
+<p>Oui, car $\PGCD(15,26)=1$. Comme $15^{-1}\equiv7\pmod{26}$, on a $x\equiv7(y-3)\equiv7y+5\pmod{26}$.</p></details></div>
+</article>
+</section>
+
+<!-- ================= OUTILS ================= -->
+<section id="v-outils" data-view="outils" hidden>
+<div style="max-width:76ch;margin-bottom:24px">
+<div class="chap mono" style="color:var(--accent)">Pratique</div>
+<h1 style="font-size:clamp(30px,4vw,40px);font-weight:800;margin:6px 0 10px">Outils interactifs</h1>
+<p style="margin:0;color:var(--muted)">Pour vérifier vos calculs d'exercices. Chaque outil s'ouvre avec un exemple du cours.</p>
+</div>
+<div class="tools">
+
+<div class="tool">
+<h3>Chiffrer et déchiffrer</h3>
+<p class="sub">César, Vigenère ou affine, avec $A=0,\dots,Z=25$. Les autres caractères sont conservés.</p>
+<div class="row">
+  <label class="field" for="c-mode">Méthode<select id="c-mode"><option value="cesar">César</option><option value="vigenere">Vigenère</option><option value="affine">Affine</option></select></label>
+  <label class="field" for="c-key" id="c-key-l">Clé k<input id="c-key" type="text" value="3" autocomplete="off"></label>
+  <label class="field" for="c-b" id="c-b-l" hidden>b<input id="c-b" type="number" value="5"></label>
+</div>
+<label class="field" for="c-in">Texte<textarea id="c-in">RENDEZ VOUS DEMAIN MIDI</textarea></label>
+<div class="row" style="margin-top:12px"><button class="btn" id="c-enc" type="button">Chiffrer</button><button class="btn ghost" id="c-dec" type="button">Déchiffrer</button></div>
+<div class="result" id="c-out" aria-live="polite"></div>
+</div>
+
+<div class="tool">
+<h3>Euclide étendu et inverse</h3>
+<p class="sub">Divisions successives, PGCD, coefficients de Bézout $au+bv=\PGCD(a,b)$ et inverse de $a$ modulo $b$.</p>
+<div class="row">
+  <label class="field" for="e-a">a<input id="e-a" type="number" value="15"></label>
+  <label class="field" for="e-b">b (ou n)<input id="e-b" type="number" value="26"></label>
+  <button class="btn" id="e-go" type="button">Calculer</button>
+</div>
+<div class="result" id="e-out" aria-live="polite"></div>
+</div>
+
+<div class="tool">
+<h3>Congruence ax ≡ b (mod n)</h3>
+<p class="sub">Nombre de solutions et liste des solutions modulo $n$.</p>
+<div class="row">
+  <label class="field" for="q-a">a<input id="q-a" type="number" value="6"></label>
+  <label class="field" for="q-b">b<input id="q-b" type="number" value="4"></label>
+  <label class="field" for="q-n">n<input id="q-n" type="number" value="10"></label>
+  <button class="btn" id="q-go" type="button">Résoudre</button>
+</div>
+<div class="result" id="q-out" aria-live="polite"></div>
+</div>
+
+<div class="tool">
+<h3>Analyse des fréquences</h3>
+<p class="sub">Compte les lettres d'un texte chiffré et propose la clé de César qui envoie la lettre la plus fréquente sur E.</p>
+<label class="field" for="f-in">Texte chiffré<textarea id="f-in">SLZ TLZZHNLZ ZLJYLAZ ZL JHJOLUA KLYYPLYL SLZ SLAAYLZ</textarea></label>
+<div class="bars" id="f-bars" aria-hidden="true"></div>
+<div class="bar-l" id="f-lbl" aria-hidden="true"></div>
+<div class="result" id="f-out" style="margin-top:10px" aria-live="polite"></div>
+</div>
+
+</div>
+</section>
+<section id="v-logiciels" data-view="logiciels" hidden>
+  <div class="intro"><span class="lvl">Master 1</span><h1>Logiciels mathématiques</h1><p>Rédiger des documents scientifiques avec LaTeX : structure d’un document, tableaux, figures, mathématiques, présentations Beamer, dessins TikZ et bibliographie. Cours, sept TP corrigés et trois examens corrigés.</p></div>
+  <div class="grid-cards"><div class="card"><span class="num">Chapitres 1 à 3</span><h3>Bases de LaTeX</h3><ul><li>Structure d’un document</li><li>Tableaux</li><li>Listes et figures</li></ul></div><div class="card"><span class="num">Chapitres 4 à 7</span><h3>Aller plus loin</h3><ul><li>Écrire des mathématiques</li><li>Présentations avec Beamer</li><li>Dessiner avec TikZ</li><li>Bibliographie</li></ul></div><div class="card"><span class="num">7 TP</span><h3>Travaux pratiques corrigés</h3><ul><li>Structure, tableaux, listes et figures</li><li>Formules, Beamer, TikZ</li><li>Bibliographie</li></ul></div><div class="card"><span class="num">3 sessions</span><h3>Examens corrigés</h3><ul><li>Session 2019–2020</li><li>Session 2021–2022</li><li>Session 2022–2023</li></ul></div></div>
+  <div class="pdfbar"><p>Polycopié complet : cours, TP et examens corrigés<small>7 chapitres, 7 TP, 3 examens et un aide-mémoire (120 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/logiciels_cours_tp_examens.pdf" download="Logiciels_mathematiques_cours_TP_examens_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div><div class="pdfbar"><p>TP et examens corrigés seuls<small>Les 7 TP et les 3 examens corrigés, avec l’aide-mémoire (76 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/logiciels_tp_examens.pdf" download="Logiciels_mathematiques_TP_examens_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div>
+</section>
+<section id="v-analyse-6" data-view="analyse-6" hidden>
+  <div class="intro"><span class="lvl">Filière SMA</span><h1>Analyse 6</h1><p>Intégrales généralisées et à paramètre, formes différentielles, intégrales curvilignes et intégrales multiples. Un polycopié de cours et un recueil de TD et d’examens corrigés (sessions 2011 à 2026). Pr. El Houssine Azroul et Pr. Siham Ezzouak.</p></div>
+  <div class="grid-cards"><div class="card"><span class="num">Chapitre 1</span><h3>Intégrales généralisées</h3><ul><li>Critères de convergence</li><li>Convergence absolue, critère d’Abel</li><li>Convergence dominée</li></ul></div><div class="card"><span class="num">Chapitre 2</span><h3>Intégrales dépendant d’un paramètre</h3><ul><li>Continuité sous le signe ∫</li><li>Dérivation sous le signe ∫</li><li>Domination locale</li></ul></div><div class="card"><span class="num">Chapitre 3</span><h3>Formes différentielles</h3><ul><li>Formes exactes et fermées, théorème de Poincaré</li><li>Intégrales curvilignes, circulation</li><li>Formule de Green–Riemann</li></ul></div><div class="card"><span class="num">Chapitre 4</span><h3>Intégrales multiples</h3><ul><li>Intégrales doubles et triples</li><li>Théorème de Fubini</li><li>Changements de variables</li></ul></div><div class="card"><span class="num">TD 1 à 4</span><h3>Travaux dirigés corrigés</h3><ul><li>Un TD par chapitre, entièrement corrigé</li><li>Rappels de cours avec démonstrations</li></ul></div><div class="card"><span class="num">2011 – 2026</span><h3>Examens corrigés</h3><ul><li>Sessions normales et de rattrapage</li><li>Renvois vers les exercices déjà traités</li></ul></div></div>
+  <div class="pdfbar"><p>Polycopié de cours<small>Les quatre chapitres, avec démonstrations et exemples (28 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/analyse6_cours.pdf" download="Analyse6_cours_Azroul_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div><div class="pdfbar"><p>TD et examens corrigés<small>Rappels, TD 1 à 4 et examens 2011–2026 corrigés (64 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/analyse6_td_examens.pdf" download="Analyse6_TD_examens_Azroul_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div>
+</section>
+<section id="v-sagemath" data-view="sagemath" hidden>
+  <div class="intro"><span class="lvl">Formation doctorale</span><h1>SageMath</h1><p>Prise en main de SageMath et programmation en Python, calcul formel, arithmétique et polynômes, courbes elliptiques et algorithmes de la cryptographie. Cours, six TP corrigés et l’examen de mai 2024 corrigé.</p></div>
+  <div class="grid-cards"><div class="card"><span class="num">Chapitres 1 à 3</span><h3>Programmer avec Sage</h3><ul><li>Présentation, installation, premiers calculs</li><li>Conditions, boucles, fonctions</li><li>Listes, chaînes, dictionnaires</li></ul></div><div class="card"><span class="num">Chapitres 4 à 6</span><h3>Mathématiques avec Sage</h3><ul><li>Calcul formel, matrices, graphiques</li><li>Arithmétique, ℤ/nℤ, primalité, polynômes</li><li>Courbes elliptiques</li></ul></div><div class="card"><span class="num">6 TP</span><h3>Travaux pratiques corrigés</h3><ul><li>Introduction, fonctions et itérations</li><li>César et Vigenère, ℤ/nℤ, courbes elliptiques</li><li>RSA, ElGamal, Diffie–Hellman, logarithme discret</li></ul></div><div class="card"><span class="num">Mai 2024</span><h3>Examen corrigé</h3><ul><li>Fonctions sur les listes, suites itératives et récursives</li><li>Calculs dans ℤ/11ℤ</li></ul></div></div>
+  <div class="pdfbar"><p>Polycopié complet : cours, TP et examen corrigés<small>6 chapitres, 6 TP et l’examen 2024 (50 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/sagemath_cours_tp_examen.pdf" download="SageMath_cours_TP_examen_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div>
+</section>
+<section id="v-analyse-1" data-view="analyse-1" hidden>
+  <div class="intro"><span class="lvl">SMP · Semestre 1</span><h1>Analyse 1</h1><p>Fonctions numériques d’une variable réelle, fonctions usuelles, formules de Taylor et développements limités. Polycopié rédigé à partir des diapositives du cours (année 2020–2021).</p></div>
+  <div class="grid-cards"><div class="card"><span class="num">Chapitre 1</span><h3>Fonctions numériques</h3><ul><li>Théorème des valeurs intermédiaires</li><li>Théorème de la bijection</li><li>Dérivabilité, Rolle, accroissements finis</li></ul></div><div class="card"><span class="num">Chapitre 2</span><h3>Fonctions usuelles</h3><ul><li>arcsin, arccos, arctan</li><li>ch, sh, th</li><li>Fonctions hyperboliques réciproques</li></ul></div><div class="card"><span class="num">Chapitre 3</span><h3>Taylor et développements limités</h3><ul><li>Leibniz, Taylor–Lagrange, Taylor–Young</li><li>DL usuels et opérations, DL généralisés</li><li>Limites, tangentes, asymptotes, extremums</li></ul></div></div>
+  <div class="pdfbar"><p>Polycopié de cours<small>Les trois chapitres, avec figures et exemples (31 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/analyse1_smp_cours.pdf" download="Analyse1_SMP_cours_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div>
+</section>
+<section id="v-maths-physique" data-view="maths-physique" hidden>
+  <div class="intro"><span class="lvl">Filières de physique</span><h1>Mathématiques pour la physique</h1><p>Les outils mathématiques des physiciens : fonctions de plusieurs variables, intégrales, séries et transformation de Fourier. Un livre de cours et un recueil de TD et d’examens corrigés.</p></div>
+  <div class="grid-cards"><div class="card"><span class="num">Chapitre 1</span><h3>Fonctions de plusieurs variables</h3></div><div class="card"><span class="num">Chapitre 2</span><h3>Les intégrales</h3></div><div class="card"><span class="num">Chapitre 3</span><h3>Séries de Fourier</h3></div><div class="card"><span class="num">Chapitre 4</span><h3>Transformation de Fourier</h3></div><div class="card"><span class="num">5 séries</span><h3>Travaux dirigés corrigés</h3><ul><li>Fonctions de plusieurs variables, intégrales multiples</li><li>Théorème des résidus</li><li>Fourier, séries numériques et entières</li></ul></div><div class="card"><span class="num">2024 – 2026</span><h3>Examens corrigés</h3><ul><li>Sessions normales et de rattrapage 2024–2025</li><li>Sessions normales et de rattrapage 2025–2026</li></ul></div></div>
+  <div class="pdfbar"><p>Livre de cours<small>Les quatre chapitres (45 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/maths_physique_cours.pdf" download="Maths_pour_la_physique_cours_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div><div class="pdfbar"><p>TD et examens corrigés<small>Cinq séries de TD et quatre sujets d’examen corrigés (40 pages).</small></p><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="status"></span><a class="btn" href="pdf/maths_physique_td_examens.pdf" download="Maths_pour_la_physique_TD_examens_Ezzouak.pdf" style="text-decoration:none">Télécharger le PDF</a></div></div>
+</section>
+</main>
+
+<footer><div class="wrap">Siham Ezzouak · Département de Mathématiques · Faculté des Sciences Dhar El Mahraz, Fès</div></footer>
+
+<script>
+window.MathJax={
+  tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']],
+    macros:{PGCD:'\\operatorname{PGCD}',ord:'\\operatorname{ord}',N:'\\mathbb{N}',Z:'\\mathbb{Z}',F:'\\mathbb{F}'}},
+  svg:{fontCache:'global'},
+  options:{skipHtmlTags:['script','noscript','style','textarea','pre','code','select','option']},
+  startup:{typeset:false}
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js"></script>
+<script>
+(function(){
+const VIEWS=['accueil','crypto','chapitre-1','chapitre-2','exercices','outils','logiciels','analyse-6','sagemath','analyse-1','maths-physique'];
+const CRYPTO=['crypto','chapitre-1','chapitre-2','exercices','outils'];
+const typeset=new Set();
+function mathify(el){
+  if(typeset.has(el.id))return;
+  const go=()=>{ if(window.MathJax&&MathJax.typesetPromise){typeset.add(el.id);MathJax.typesetPromise([el]).catch(()=>typeset.delete(el.id));} };
+  if(window.MathJax&&MathJax.startup&&MathJax.startup.promise){MathJax.startup.promise.then(go);} else setTimeout(()=>mathify(el),300);
+}
+function show(){
+  let v=(location.hash||'').slice(1); if(!VIEWS.includes(v)) v='accueil';
+  VIEWS.forEach(n=>{document.getElementById('v-'+n).hidden=(n!==v);});
+  const top=CRYPTO.includes(v)?'crypto':v;
+  document.querySelectorAll('nav.tabs a').forEach(a=>{
+    if(a.getAttribute('href')==='#'+top)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  const sn=document.getElementById('crypto-nav'); sn.hidden=!CRYPTO.includes(v);
+  sn.querySelectorAll('a').forEach(a=>{
+    if(a.getAttribute('href')==='#'+v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  mathify(document.getElementById('v-'+v));
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',show);
+
+// Sommaires latéraux (boutons : le hash reste réservé aux pages)
+document.querySelectorAll('.course').forEach(c=>{
+  const toc=c.querySelector('aside.toc');
+  c.querySelectorAll('article h2[id], article h3[id]').forEach(h=>{
+    const b=document.createElement('button'); b.type='button';
+    b.textContent=h.textContent; if(h.tagName==='H3')b.className='sub';
+    b.addEventListener('click',()=>h.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));
+    toc.appendChild(b);
+  });
+});
+
+// ---------- Outils ----------
+const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const mod=(x,n)=>((x%n)+n)%n;
+function strip(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();}
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;}
+function egcd(a,b){let r0=a,r1=b,u0=1,u1=0,v0=0,v1=1;while(r1!==0){const q=Math.floor(r0/r1);[r0,r1]=[r1,r0-q*r1];[u0,u1]=[u1,u0-q*u1];[v0,v1]=[v1,v0-q*v1];}return {g:r0,u:u0,v:v0};}
+function inv(a,n){const e=egcd(mod(a,n),n);return e.g===1?mod(e.u,n):null;}
+
+// Démo César de l'accueil
+const hk=document.getElementById('hkey');
+function hero(){
+  const k=+hk.value; document.getElementById('hk').textContent=k;
+  const half=(i)=>A.slice(i,i+13).split('');
+  const put=(id,arr)=>{document.getElementById(id).innerHTML=arr.map(c=>'<span>'+c+'</span>').join('');};
+  put('hs1',half(0)); put('hc1',half(0).map(c=>A[mod(A.indexOf(c)+k,26)]));
+  put('hs2',half(13)); put('hc2',half(13).map(c=>A[mod(A.indexOf(c)+k,26)]));
+  document.getElementById('hout').textContent='CRYPTOGRAPHIE → '+caesar('CRYPTOGRAPHIE',k);
+}
+function caesar(s,k){return strip(s).replace(/[A-Z]/g,c=>A[mod(A.indexOf(c)+k,26)]);}
+hk.addEventListener('input',hero); hero();
+
+// Chiffrer / déchiffrer
+const cm=document.getElementById('c-mode'),ck=document.getElementById('c-key'),cb=document.getElementById('c-b'),co=document.getElementById('c-out');
+function modeUI(){
+  const m=cm.value; document.getElementById('c-b-l').hidden=(m!=='affine');
+  const l=document.getElementById('c-key-l'); l.firstChild.textContent=(m==='vigenere'?'Clé (mot)':m==='affine'?'a':'Clé k');
+  if(m==='vigenere'&&!/^[A-Za-z]+$/.test(ck.value))ck.value='IUPMIAGE';
+  if(m!=='vigenere'&&!/^-?\d+$/.test(ck.value))ck.value=(m==='affine'?'7':'3');
+  if(m==='affine'&&ck.value==='3')ck.value='7';
+}
+function run(dir){
+  const m=cm.value, txt=strip(document.getElementById('c-in').value); let out='';
+  if(m==='cesar'){const k=parseInt(ck.value,10); if(isNaN(k)){co.innerHTML='<span class="err">La clé doit être un entier entre 1 et 25.</span>';return;} out=caesar(txt,dir*k);}
+  else if(m==='vigenere'){
+    const key=strip(ck.value).replace(/[^A-Z]/g,''); if(!key){co.innerHTML='<span class="err">La clé doit contenir au moins une lettre.</span>';return;}
+    let i=0; out=txt.replace(/[A-Z]/g,c=>A[mod(A.indexOf(c)+dir*A.indexOf(key[i++%key.length]),26)]);}
+  else{
+    const a=parseInt(ck.value,10), b=parseInt(cb.value,10);
+    if(isNaN(a)||isNaN(b)){co.innerHTML='<span class="err">a et b doivent être des entiers.</span>';return;}
+    const ai=inv(a,26);
+    if(ai===null){co.innerHTML='<span class="err">PGCD('+a+', 26) = '+gcd(a,26)+' : a n\'est pas inversible modulo 26, ce code ne se déchiffre pas. Choisissez a premier avec 26.</span>';return;}
+    out=txt.replace(/[A-Z]/g,c=>{const x=A.indexOf(c);return A[dir>0?mod(a*x+b,26):mod(ai*(x-b),26)];});
+    out+='\n\n(a⁻¹ ≡ '+ai+' mod 26 ; déchiffrement x ≡ '+ai+'(y − '+b+'))';
+  }
+  co.textContent=out;
+}
+cm.addEventListener('change',()=>{modeUI();run(1);});
+document.getElementById('c-enc').addEventListener('click',()=>run(1));
+document.getElementById('c-dec').addEventListener('click',()=>run(-1));
+run(1);
+
+// Euclide étendu
+function euclid(){
+  const a=parseInt(document.getElementById('e-a').value,10), b=parseInt(document.getElementById('e-b').value,10), o=document.getElementById('e-out');
+  if(!(a>0&&b>0)){o.innerHTML='<span class="err">Entrez deux entiers strictement positifs.</span>';return;}
+  let lines=['Algorithme d\'Euclide :'], x=Math.max(a,b), y=Math.min(a,b);
+  while(y!==0){const q=Math.floor(x/y),r=x%y;lines.push('  '+x+' = '+q+' × '+y+' + '+r);x=y;y=r;}
+  const e=egcd(a,b);
+  lines.push('','PGCD('+a+', '+b+') = '+e.g,'Bézout : '+a+' × ('+e.u+') + '+b+' × ('+e.v+') = '+e.g);
+  if(e.g===1)lines.push('','Inverse : '+a+'⁻¹ ≡ '+mod(e.u,b)+' (mod '+b+')','Vérification : '+a+' × '+mod(e.u,b)+' = '+(a*mod(e.u,b))+' ≡ 1 (mod '+b+')');
+  else lines.push('',a+' n\'est pas inversible modulo '+b+' (PGCD ≠ 1).');
+  o.textContent=lines.join('\n');
+}
+document.getElementById('e-go').addEventListener('click',euclid); euclid();
+
+// Congruences
+function congr(){
+  const a=parseInt(document.getElementById('q-a').value,10), b=parseInt(document.getElementById('q-b').value,10), n=parseInt(document.getElementById('q-n').value,10), o=document.getElementById('q-out');
+  if(isNaN(a)||isNaN(b)||!(n>=2)||mod(a,n)===0){o.innerHTML='<span class="err">Entrez des entiers avec n ≥ 2 et a non divisible par n.</span>';return;}
+  const d=gcd(a,n), L=['d = PGCD('+a+', '+n+') = '+d];
+  if(mod(b,d)!==0){L.push(d+' ne divise pas '+b+' : aucune solution.');o.textContent=L.join('\n');return;}
+  const a1=a/d,b1=b/d,n1=n/d,i1=inv(a1,n1), x0=mod(i1*b1,n1);
+  L.push(d+' divise '+b+' : '+d+' solution'+(d>1?'s':'')+' modulo '+n+'.');
+  if(d>1)L.push('On divise par '+d+' : '+a1+'x ≡ '+b1+' (mod '+n1+')');
+  L.push('Inverse de '+mod(a1,n1)+' modulo '+n1+' : '+i1,'x₀ ≡ '+i1+' × '+b1+' ≡ '+x0+' (mod '+n1+')');
+  const sols=[];for(let k=0;k<d;k++)sols.push(x0+k*n1);
+  L.push('','Solutions modulo '+n+' : x ≡ '+sols.join(', ')); o.textContent=L.join('\n');
+}
+document.getElementById('q-go').addEventListener('click',congr); congr();
+
+// Fréquences
+const fin=document.getElementById('f-in');
+function freq(){
+  const t=strip(fin.value).replace(/[^A-Z]/g,''), cnt=new Array(26).fill(0); for(const c of t)cnt[A.indexOf(c)]++;
+  const mx=Math.max(1,...cnt), top=cnt.indexOf(Math.max(...cnt));
+  document.getElementById('f-bars').innerHTML=cnt.map((c,i)=>'<div class="'+(i===top&&c>0?'top':'')+'" style="height:'+(c/mx*100)+'%" title="'+A[i]+' : '+c+'"></div>').join('');
+  document.getElementById('f-lbl').innerHTML=A.split('').map(c=>'<span>'+c+'</span>').join('');
+  const o=document.getElementById('f-out');
+  if(!t.length){o.textContent='Collez un texte chiffré pour voir ses fréquences.';return;}
+  const order=cnt.map((c,i)=>[c,i]).filter(p=>p[0]>0).sort((p,q)=>q[0]-p[0]).slice(0,6);
+  const k=mod(top-4,26);
+  o.textContent=t.length+' lettres. Les plus fréquentes : '+order.map(p=>A[p[1]]+' '+(100*p[0]/t.length).toFixed(1).replace('.',',')+' %').join(', ')+
+    '\nHypothèse '+A[top]+' = E  →  clé de César k = '+k+'\nDéchiffrement : '+caesar(strip(fin.value),-k);
+}
+fin.addEventListener('input',freq); freq();
+
+show();
+})();
+</script>
+</body>
+</html>
